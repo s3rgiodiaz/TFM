@@ -32,8 +32,8 @@ segunda_derivada_test = zeros(length(TEST_class_labels),length(primera_instancia
 desviacion_estandar_train = zeros (length(TRAIN_class_labels),length(primera_instancia_train));
 desviacion_estandar_test = zeros(length(TEST_class_labels),length(primera_instancia_test));
 
-mediana_train = zeros(length(TRAIN_class_labels),length(primera_instancia_train));
-mediana_test = zeros(length(TEST_class_labels),length(primera_instancia_test));
+media_train = zeros(length(TRAIN_class_labels),length(primera_instancia_train));
+media_test = zeros(length(TEST_class_labels),length(primera_instancia_test));
 
 LBP_train = zeros (length(TRAIN_class_labels)*(tam_ventana*2-2),length(primera_instancia_train));
 LBP_test = zeros (length(TEST_class_labels)*(tam_ventana*2-2),length(primera_instancia_test));
@@ -252,7 +252,7 @@ for i = 1 : length(TRAIN_class_labels) % Bucle para recorrer todo el dataset
     %% TF
     L = length(classify_this_object);
     S = fft(classify_this_object);
-    Y = abs(S/length(classify_this_object));
+    Y = abs(S/L);
     tf_train(i,1:fix(L/2))=  Y(fix(L/2)+2:end);
     tf_train(i,fix(L/2)+1)=  Y(1);
     tf_train(i,fix(L/2)+2:end)= fliplr(tf_train(i,1:fix(L/2)));
@@ -264,8 +264,8 @@ for i = 1 : length(TRAIN_class_labels) % Bucle para recorrer todo el dataset
             %% Desviacion estandar
             desviacion_estandar_train(i,j) = std(classify_this_object(j:j+(tam_ventana-1)));
             
-            %% Mediana
-            mediana_train(i,j) = median(classify_this_object(j:j+(tam_ventana-1)));
+            %% Media
+            media_train(i,j) = mean(classify_this_object(j:j+(tam_ventana-1)));
             
             %% Varianza
             varianza_train(i,j) = var(classify_this_object(j:j+tam_ventana-1));
@@ -287,8 +287,8 @@ for i = 1 : length(TRAIN_class_labels) % Bucle para recorrer todo el dataset
             %% Desviacion estandar
             desviacion_estandar_train(i,j) = std(classify_this_object(j:end));
             
-            %% Mediana
-            mediana_train(i,j) = median(classify_this_object(j:end));
+            %% Media
+            media_train(i,j) = mean(classify_this_object(j:end));
             
             %% Varianza
             varianza_train(i,j) = var(classify_this_object(j:end));
@@ -336,7 +336,7 @@ csvwrite('Feature_2_Lighting2_Train.dat',frecuencia_inst_train);
 csvwrite('Feature_3_Lighting2_Train.dat',primera_derivada_train);
 csvwrite('Feature_4_Lighting2_Train.dat',segunda_derivada_train);
 csvwrite('Feature_5_Lighting2_Train.dat',desviacion_estandar_train);
-csvwrite('Feature_1_Lighting2_Train.dat',mediana_train);
+csvwrite('Feature_6_Lighting2_Train.dat',media_train);
 csvwrite('Feature_8_Lighting2_Train.dat',LBP_train);
 csvwrite('Feature_9_Lighting2_Train.dat',SWD_train);
 csvwrite('Feature_10_Lighting2_Train.dat',mediamovil_train);
@@ -500,8 +500,8 @@ for i = 1 : length(TEST_class_labels) % Bucle para recorrer todo el dataset
             %% Desviacion estandar
             desviacion_estandar_test(i,j) = std(classify_this_object(j:j+(tam_ventana-1)));
             
-            %% Mediana
-            mediana_test(i,j) = median(classify_this_object(j:j+(tam_ventana-1)));
+            %% Media
+            media_test(i,j) = mean(classify_this_object(j:j+(tam_ventana-1)));
             
             %% Varianza
             varianza_test(i,j) = var(classify_this_object(j:j+tam_ventana-1));
@@ -523,8 +523,8 @@ for i = 1 : length(TEST_class_labels) % Bucle para recorrer todo el dataset
             %% Desviacion estandar
             desviacion_estandar_test(i,j) = std(classify_this_object(j:end));
             
-            %% Mediana
-            mediana_test(i,j) = median(classify_this_object(j:end));
+            %% Media
+            media_test(i,j) = mean(classify_this_object(j:end));
             
             %% Varianza
             varianza_test(i,j) = var(classify_this_object(j:end));
@@ -573,7 +573,7 @@ csvwrite('Feature_2_Lighting2_Test.dat',frecuencia_inst_test);
 csvwrite('Feature_3_Lighting2_Test.dat',primera_derivada_test);
 csvwrite('Feature_4_Lighting2_Test.dat',segunda_derivada_test);
 csvwrite('Feature_5_Lighting2_Test.dat',desviacion_estandar_test);
-csvwrite('Feature_1_Lighting2_Test.dat',mediana_Ttest);
+csvwrite('Feature_6_Lighting2_Test.dat',media_test);
 csvwrite('Feature_8_Lighting2_Test.dat',LBP_test);
 csvwrite('Feature_9_Lighting2_Test.dat',SWD_test);
 csvwrite('Feature_10_Lighting2_Test.dat',mediamovil_test);
